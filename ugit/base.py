@@ -48,7 +48,22 @@ def get_tree(oid , base_path= ''):
             assert False, f'Unkown tree entry {type_}'
     return result
 
+def _empty_current_directory():
+    for root, dirnames, filenames in os.walk('.', topdown=False)
+    for filename in filenames:
+        path = os.path.relpath(f'{root}/{filename}')
+        if is_ignored(path):
+            continue
+        try:
+            os.rmdir(path)
+        except (FileExistsError, OSError):
+            #Deletion might fail if the directory contains ignored files,
+            # so it's ok
+            # Si le dossier contient des fichiers ignoré la suppression pourriat échouée
+            pass
+
 def read_tree(tree_oid):
+    _empty_current_directory()
     for path, oid in get_tree(tree_oid, base_path='./').items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'wb') as f:
