@@ -16,6 +16,10 @@ def parse_args():
     init_parser = commands.add_parser('init')
     init_parser.set_defaults(func=init)
 
+    hash_object_parser = commands.add_parser('hash-object')
+    hash_object_parser.set_defaults(func=hash_object)
+    hash_object_parser.add_argument('file')
+
     return parser.parse_args()
 
 
