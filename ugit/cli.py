@@ -48,6 +48,13 @@ def parse_args():
     read_tree_parser.set_defaults (func=read_tree)
     read_tree_parser.add_argument ('tree')
 
+    #Define the 'commit' command
+    #Définir la commande 'commit'
+    commit_parser = commands.add_parser('commit')
+    commit_parser.set_defaults(func=commit)
+    commit_parser.add_argument('-m', '--message', required=True)
+
+
     return parser.parse_args()
 
 
@@ -80,4 +87,7 @@ def read_tree(args):
     # Read the current directory tree to the object store
     # Lire l'arborescence du répertoire courant dans le stockage d'objets
     base.read_tree(args.tree)
+
+def commit(args):
+    print(base.commit(args.message))
 
