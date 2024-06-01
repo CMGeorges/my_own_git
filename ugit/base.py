@@ -25,5 +25,13 @@ def write_tree(directory='.'):
 
     return data.hash_object(tree.encode(), 'tree')
 
+def _iter_tree_entries(oid):
+    if not oid:
+        return
+    tree = data.get_object(oid, 'tree')
+    for entry in tree.decode().splitlines():
+        type_, oid, name = entry.split(' ', 2)
+        yield type_, oid, name
+
 def is_ignored(path):
     return '.ugit' in path.split('/')
