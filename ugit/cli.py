@@ -37,6 +37,8 @@ def parse_args():
     cat_file_parser.set_defaults (func=cat_file)
     cat_file_parser.add_argument ('object')
 
+    # Define the 'write-tree' command
+    # Définir la commande 'write-tree'
     write_tree_parser = commands.add_parser('write-tree')
     write_tree_parser.set_defaults(func=write_tree)
 
@@ -66,5 +68,5 @@ def cat_file(args):
 def write_tree(args):
     # Write the current directory tree to the object store
     # Écrire l'arborescence du répertoire courant dans le stockage d'objets
-    base.write_tree()
+    print(base.write_tree())
 
