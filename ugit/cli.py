@@ -64,5 +64,7 @@ def cat_file(args):
     sys.stdout.buffer.write(data.get_object(args.object, expected=None))
 
 def write_tree(args):
+    # Write the current directory tree to the object store
+    # Écrire l'arborescence du répertoire courant dans le stockage d'objets
     base.write_tree()
 
