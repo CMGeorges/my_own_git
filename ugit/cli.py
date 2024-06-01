@@ -42,6 +42,12 @@ def parse_args():
     write_tree_parser = commands.add_parser('write-tree')
     write_tree_parser.set_defaults(func=write_tree)
 
+    # Define the 'read-tree' command
+    # Définir la commande 'read-tree'
+    read_tree_parser = commands.add_parser ('read-tree')
+    read_tree_parser.set_defaults (func=read_tree)
+    read_tree_parser.add_argument ('tree')
+
     return parser.parse_args()
 
 
@@ -69,4 +75,9 @@ def write_tree(args):
     # Write the current directory tree to the object store
     # Écrire l'arborescence du répertoire courant dans le stockage d'objets
     print(base.write_tree())
+
+def read_tree(args):
+    # Read the current directory tree to the object store
+    # Lire l'arborescence du répertoire courant dans le stockage d'objets
+    base.read_tree(args.tree)
 
