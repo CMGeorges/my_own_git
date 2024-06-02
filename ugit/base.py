@@ -26,6 +26,8 @@ def write_tree(directory='.'):
     return data.hash_object(tree.encode(), 'tree')
 
 def _iter_tree_entries(oid):
+    # Iterate over tree entries given the object ID
+    # Itérer sur les entrées de l'arbre en donnant l'ID de l'objet
     if not oid:
         return
     tree = data.get_object(oid, 'tree')
@@ -35,6 +37,8 @@ def _iter_tree_entries(oid):
 
 
 def get_tree(oid , base_path= ''):
+    # Get the tree structure recursively starting from the given object ID
+    # Obtenir la structure de l'arbre de manière récursive en partant de l'ID de l'objet donné
     result = {}
     for type_, oid, name in _iter_tree_entries(oid):
         assert '/' not in name
@@ -49,6 +53,8 @@ def get_tree(oid , base_path= ''):
     return result
 
 def _empty_current_directory():
+    # Empty the current directory
+    # Vider le répertoire courant
     for root, dirnames, filenames in os.walk('.', topdown=False)
     for filename in filenames:
         path = os.path.relpath(f'{root}/{filename}')
@@ -63,6 +69,8 @@ def _empty_current_directory():
             pass
 
 def read_tree(tree_oid):
+    # Read the tree and populate the current directory with its contents
+    # Lire l'arbre et remplir le répertoire courant avec son contenu
     _empty_current_directory()
     for path, oid in get_tree(tree_oid, base_path='./').items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -70,6 +78,8 @@ def read_tree(tree_oid):
             f.write(data.get_object(oid))
 
 def commit(message):
+    # Create a commit with the given message
+    # Créer un commit avec le message donné
     commit = f'tree {write_tree()}\n'
     commit += '\n'
     commit += f'{message}\n'
