@@ -81,6 +81,9 @@ def commit(message):
     # Create a commit with the given message
     # Créer un commit avec le message donné
     commit = f'tree {write_tree()}\n'
+    HEAD = data.get_HEAD()
+    if HEAD:
+        commit += f'parent {HEAD}\n'
     commit += '\n'
     commit += f'{message}\n'
 
@@ -89,6 +92,12 @@ def commit(message):
     data.set_HEAD(oid)
 
     return oid        
+
+
+def checkout(oid):
+    commit = get_commit(oid)
+    read_tree(commit.tree)
+    data.set_HEAD(oid)
 
 def is_ignored(path):
     return '.ugit' in path.split('/')
