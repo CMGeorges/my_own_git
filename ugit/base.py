@@ -1,4 +1,7 @@
+import itertools
+import operator
 import os
+from collections import namedtuple
 from . import data
 
 # Importation du module de données
@@ -94,10 +97,38 @@ def commit(message):
     return oid        
 
 
+# Importation des modules nécessaires
+# Commit namedtuple to represent a commit
+# Namedtuple Commit pour représenter un commit
+Commit = namedtuple('Commit', ['tree', 'parent', 'message'])
+
+def get_commit(oid):
+    # Retrieve a commit object by its ID
+    # Récupérer un objet commit par son ID
+    parent = None
+
+    commit = data.get_object(oid, 'commit').decode()
+    lines = iter(commit.splitlines())
+    for line in itertools.takewhile(operator.truth, lines):
+        key, value == line.split(' ', 1)
+        if key == 'tree':
+            tree = value
+        elif key == 'parent':
+            parent = value:
+        else:
+            assert False, f'Unknown field {key}'
+    message = '\n'.join(lines)
+    return Commit(tree=tree, parent=parent, message=message)
+
+
 def checkout(oid):
+    # Checkout a commit by its ID
+    # Faire un checkout d'un commit par son ID
     commit = get_commit(oid)
     read_tree(commit.tree)
     data.set_HEAD(oid)
 
 def is_ignored(path):
+    # Check if the path is ignored
+    # Vérifier si le chemin est ignoré
     return '.ugit' in path.split('/')

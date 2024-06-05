@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import textwrap
 
 from . import base
 from . import data
@@ -54,6 +55,10 @@ def parse_args():
     commit_parser.set_defaults(func=commit)
     commit_parser.add_argument('-m', '--message', required=True)
 
+    #Define the 'log' command
+    #Définir la commande 'log'
+    log_parser = commands.add_parser('log')
+    log_parser.set_defaults(func=log)
 
     return parser.parse_args()
 
@@ -89,5 +94,19 @@ def read_tree(args):
     base.read_tree(args.tree)
 
 def commit(args):
+    # Create a commit with the given message and print the commit ID
+    # Créer un commit avec le message donné et imprimer l'ID du commit
     print(base.commit(args.message))
 
+def log(args):
+    # Display the commit log starting from the HEAD
+    # Afficher le journal des commits en commençant par le HEAD
+    oid = data.get_HEAD()
+    while oid:
+        commit = base.get_commit(oid)
+
+        print(f'commit {oid}\n')
+        print(textwrap.indent(commit.message, '   '))
+        print('')
+
+        oid = commit.parent
